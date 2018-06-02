@@ -3,8 +3,8 @@ A simple, experimental application that uses the [YouTube](https://youtube.com) 
 to download a random video based on a keyword search.  
 
 ## How-To Use This Project
-The project was build with [gradle](https://gradle.org/) and is configured  
-with the "application" plugin and so, may be ran with the following command:  
+This project is built with [gradle](https://gradle.org/). It has the "application"  
+plugin applied by default and may be ran with the following command:  
 ```
 ./gradlew run -Pkeyword=<searchterm>  
 ```  
