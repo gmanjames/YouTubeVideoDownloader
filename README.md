@@ -8,7 +8,7 @@ plugin applied by default and may be ran with the following command:
 ```
 ./gradlew run -Pkeyword=<searchterm>  
 ```  
-replace <searchterm> with your chosen keyword
+replace **searchterm** with your chosen keyword
 
 ### What You'll Need
 1. A Google API [authorization credentials](https://developers.google.com/youtube/registering_an_application)  
@@ -16,5 +16,5 @@ replace <searchterm> with your chosen keyword
 
 I have provided an example application properties file in the project root directory.  
 You must update youtube.apiKey and targetPath (where you would like the video to be saved)  
-with the proper information. Before you run the application, ensure that this file is in  
+with proper values. Before you run the application, ensure that this file is in  
 the Java classpath.  
