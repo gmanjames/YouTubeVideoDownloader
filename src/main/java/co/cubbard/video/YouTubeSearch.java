@@ -43,16 +43,16 @@ public class YouTubeSearch implements VideoSearch
 		// API key from properties file
 		search.setKey(youtubeApiKey);
 		search.setType("video");
-        search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");
-        search.setMaxResults(10l);
-        
-        return search;
+		search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");
+		search.setMaxResults(10l);
+		
+		return search;
 	}
 	
 	private List<SearchResult> resultsForKeyword(String keyword) throws IOException {
 		YouTube.Search.List search = defaultSearch();
 		search.setQ(keyword);
-        return search.execute().getItems();
+		return search.execute().getItems();
 	}
 	
 	public List<Title> search(String keyword) {
