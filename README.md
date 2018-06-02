@@ -5,9 +5,9 @@ to download a random video based on a keyword search.
 ## How-To Use This Project
 The project was build with [gradle](https://gradle.org/) and is configured  
 with the "application" plugin and so, may be ran with the following command:  
-'''
+```
 ./gradlew run -Pkeyword=<searchterm>  
-'''  
+```  
 replace <searchterm> with your chosen keyword
 
 ### What You'll Need
