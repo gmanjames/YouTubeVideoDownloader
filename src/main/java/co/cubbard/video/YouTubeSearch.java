@@ -45,6 +45,7 @@ public class YouTubeSearch implements VideoSearch
 		search.setType("video");
 		search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");
 		search.setMaxResults(10l);
+		search.setVideoDuration("medium");
 		
 		return search;
 	}
