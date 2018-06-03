@@ -48,7 +48,7 @@ public class App
 				), keyword);
 		
 		// Download the first title for a test
-		int index = new Random().nextInt() % titles.size();
+		int index = new Random().nextInt(titles.size());
 		download(new PickVideoDownload(properties.getProperty("pickvideo.url.base")), titles.get(index));
 	}
 }
