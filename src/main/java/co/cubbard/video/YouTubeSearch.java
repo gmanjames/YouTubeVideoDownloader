@@ -62,7 +62,7 @@ public class YouTubeSearch implements VideoSearch
 			return resultList.stream().map(new Function<SearchResult, Title>() {
 				@Override
 				public Title apply(SearchResult sr) {
-					return new Title(sr.getSnippet().getTitle(), youtubeBaseUrl + "?v=" + sr.getId().getVideoId());
+					return new Title(sr.getSnippet().getTitle(), youtubeBaseUrl + "?v=" + sr.getId().getVideoId(), keyword);
 				}
 			}).collect(Collectors.toList());
 		} catch (IOException e) {

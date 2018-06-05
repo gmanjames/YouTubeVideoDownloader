@@ -9,6 +9,7 @@ public class Title
 {
 	private String title;
 	private String url;
+	private String keyword;
 	
 	public Title() {}
 	
@@ -16,5 +17,10 @@ public class Title
 		super();
 		this.title = title;
 		this.url = url;
+	}
+	
+	public Title(String title, String url, String keyword) {
+		this(title, url);
+		this.keyword = keyword;
 	}
 }

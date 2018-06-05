@@ -3,10 +3,14 @@ package co.cubbard;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import co.cubbard.util.CubbardFileHandle;
 import co.cubbard.video.Download;
 import co.cubbard.video.PickVideoDownload;
 import co.cubbard.video.Title;
@@ -36,19 +40,25 @@ public class App
 	}
 	
 	private static void download(Download strategy, Title title) {
-		strategy.download(title, new File(properties.getProperty("targetPath") + title.getTitle() + ".mp4"));
+		String targetPath = String.format("%s/%s/%s.mp4", properties.getProperty("targetPath"), title.getKeyword(), LocalDateTime.now());
+		strategy.download(title, new File(targetPath));
 	}
 	
 	public static void main(String...args) {
-		String keyword = args[0];
-		List<Title> titles = getTitles(
-				new YouTubeSearch(
-					properties.getProperty("youtube.apiKey"),
-					properties.getProperty("youtube.url.base")
-				), keyword);
+		VideoSearch search = new YouTubeSearch(
+			properties.getProperty("youtube.apiKey"),
+			properties.getProperty("youtube.url.base")
+		);
 		
-		// Download the first title for a test
-		int index = new Random().nextInt(titles.size());
-		download(new PickVideoDownload(properties.getProperty("pickvideo.url.base")), titles.get(index));
+		try {
+			List<String> keywords = CubbardFileHandle.getKeywords();
+			for (String keyword : keywords) {
+				List<Title> titles = getTitles(search, keyword);
+				int index = new Random().nextInt(titles.size());
+				download(new PickVideoDownload(properties.getProperty("pickvideo.url.base")), getTitles(search, keyword).get(Math.abs(index)));
+			}
+		} catch (IOException e) {
+			System.out.println("Could not ready keywords file! " + e.getMessage());;
+		}
 	}
 }
