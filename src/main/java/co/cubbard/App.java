@@ -3,6 +3,7 @@ package co.cubbard;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Properties;
@@ -40,8 +41,11 @@ public class App
 	}
 	
 	private static void download(Download strategy, Title title) {
-		String targetPath = String.format("%s/%s/%s.mp4", properties.getProperty("targetPath"), title.getKeyword(), LocalDateTime.now());
-		strategy.download(title, new File(targetPath));
+		File targetDir = new File(properties.getProperty("targetPath") + "/" + title.getKeyword());
+		if (Files.notExists(targetDir.toPath())) {
+			targetDir.mkdir();
+		}
+		strategy.download(title, new File(targetDir, LocalDateTime.now().toString() + ".mp4"));
 	}
 	
 	public static void main(String...args) {

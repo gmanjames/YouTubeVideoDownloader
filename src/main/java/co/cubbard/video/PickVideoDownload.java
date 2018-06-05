@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 
@@ -65,7 +67,7 @@ public class PickVideoDownload implements Download
 			System.out.println("Malformed URL!");
 		}
 		catch (IOException ioe) {
-			System.out.println("IO! " + ioe.getCause());
+			System.out.println("IO! " + ioe.getMessage());
 		}
 	}
 }
