@@ -6,9 +6,10 @@ to download a random video based on a keyword search.
 This project is built with [gradle](https://gradle.org/). It has the "application"  
 plugin applied by default and may be ran with the following command:  
 ```
-./gradlew run -Pkeyword=<searchterm>  
+./gradlew run  
 ```  
-replace **searchterm** with your chosen keyword
+The downloader will select two random keyphrases to use for querying YouTube's data API.  
+The list of keywords is contained within the 'data' directory above project root.  
 
 ### What You'll Need
 1. A Google API [authorization credentials](https://developers.google.com/youtube/registering_an_application)  
