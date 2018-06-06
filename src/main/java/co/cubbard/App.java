@@ -8,8 +8,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import com.google.api.client.util.Lists;
 
 import co.cubbard.util.CubbardFileHandle;
 import co.cubbard.video.Download;
@@ -36,6 +39,15 @@ public class App
 		}
 	}
 	
+	private static Thread spawnDownloadThread(Title title) {
+		return new Thread() {
+			@Override
+			public void run() {
+				download(new PickVideoDownload(properties.getProperty("pickvideo.url.base")), title);
+			}
+		};
+	}
+	
 	private static List<Title> getTitles(VideoSearch vs, String keyword) {
 		return vs.search(keyword);
 	}
@@ -45,24 +57,59 @@ public class App
 		if (Files.notExists(targetDir.toPath())) {
 			targetDir.mkdir();
 		}
-		strategy.download(title, new File(targetDir, LocalDateTime.now().toString() + ".mp4"));
+		strategy.download(title, new File(targetDir, title.getTitle() + ".mp4"));
 	}
 	
-	public static void main(String...args) {
+	private static boolean isComplete(List<Thread> threads) {
+		for (Thread thread : threads) {
+			if (thread.isAlive()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public static void main(String...args) throws IOException {
 		VideoSearch search = new YouTubeSearch(
 			properties.getProperty("youtube.apiKey"),
 			properties.getProperty("youtube.url.base")
 		);
 		
-		try {
-			List<String> keywords = CubbardFileHandle.getKeywords();
-			for (String keyword : keywords) {
-				List<Title> titles = getTitles(search, keyword);
-				int index = new Random().nextInt(titles.size());
-				download(new PickVideoDownload(properties.getProperty("pickvideo.url.base")), getTitles(search, keyword).get(Math.abs(index)));
-			}
-		} catch (IOException e) {
-			System.out.println("Could not ready keywords file! " + e.getMessage());;
+		// 1. Randomly select two keywords that will consistute the YouTube searches
+		List<String> keywords = CubbardFileHandle.getKeywords();
+		int randomInt1 = ThreadLocalRandom.current().nextInt(0, keywords.size());
+		int randomInt2 = ThreadLocalRandom.current().nextInt(0, keywords.size());
+		
+		while (randomInt1 == randomInt2) {
+			randomInt2 = ThreadLocalRandom.current().nextInt(0, keywords.size());
 		}
+
+		String keyword1 = keywords.get(randomInt1);
+		String keyword2 = keywords.get(randomInt2);
+		System.out.println(String.format("selected '%s' and '%s'", keyword1, keyword2));
+		
+		List<Title> titles1 = getTitles(search, keyword1);
+		List<Title> titles2 = getTitles(search, keyword2);
+		
+		// Testing with threads
+		List<Thread> threads = Lists.newArrayList();
+		for (Title title : titles1) {
+			Thread t = spawnDownloadThread(title);
+			t.start();
+			threads.add(t);
+		}
+		
+		System.out.println("Begin downloading videos...");
+		for (Title title : titles2) {
+			Thread t = spawnDownloadThread(title);
+			t.start();
+			threads.add(t);
+		}
+		
+		while (!isComplete(threads)) {
+			System.out.print(".");
+		}
+		
+		System.out.println("End.");
 	}
 }

@@ -15,6 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Selector.SelectorParseException;
 
 public class PickVideoDownload implements Download
 {
@@ -39,8 +40,8 @@ public class PickVideoDownload implements Download
 				videoDownloadUrl = a.attr("href");
 			}
 		}
-		catch (IOException e) {
-			System.out.println("Error connecting to pickvideo");
+		catch (SelectorParseException | IOException e) {
+			System.out.println("Error scraping download url");
 		}
 		
 		// Try to download a video
@@ -67,7 +68,7 @@ public class PickVideoDownload implements Download
 			System.out.println("Malformed URL!");
 		}
 		catch (IOException ioe) {
-			System.out.println("IO! " + ioe.getMessage());
+			System.out.println("Unable to write file");
 		}
 	}
 }

@@ -44,7 +44,7 @@ public class YouTubeSearch implements VideoSearch
 		search.setKey(youtubeApiKey);
 		search.setType("video");
 		search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");
-		search.setMaxResults(10l);
+		search.setMaxResults(5l);
 		search.setVideoDuration("medium");
 		
 		return search;

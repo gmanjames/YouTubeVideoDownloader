@@ -16,6 +16,9 @@ import co.cubbard.video.Title;
 public final class CubbardFileHandle {
 	private static final File keywordFile = new File(System.getProperty("user.dir") + "/data", "keywords.txt");
 
+	private CubbardFileHandle() {
+		throw new AssertionError();
+	}
 	
 	public static List<String> getKeywords() throws IOException {
 		InputStream inputStream = new FileInputStream(keywordFile);
