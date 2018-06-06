@@ -18,3 +18,6 @@ I have provided an example application properties file in the project root direc
 You must update youtube.apiKey and targetPath (where you would like the video to be saved)  
 with proper values. Before you run the application, ensure that this file is in  
 the Java classpath.  
+
+## Acknowledgements
+* [Random Phrase Generator](https://randomwordgenerator.com/phrase.php)
