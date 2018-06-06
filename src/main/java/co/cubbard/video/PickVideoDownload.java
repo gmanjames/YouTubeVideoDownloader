@@ -31,7 +31,6 @@ public class PickVideoDownload implements Download
 		// Try with jsoup first...
 		String videoDownloadUrl = null;
 		try {
-			System.out.println(pickVideoBaseUrl + "?video=" + title.getUrl());
 			Document doc = Jsoup.connect(pickVideoBaseUrl + "?video=" + title.getUrl()).get();
 			
 			if (null != doc) {
@@ -54,13 +53,11 @@ public class PickVideoDownload implements Download
 				// Read requested file input stream
 				InputStream in = con.getInputStream();
 				
-				System.out.println("Begin writing file...");
 				java.nio.file.Files.copy(
 					in,
 					target.toPath(),
 					StandardCopyOption.REPLACE_EXISTING
 				);
-				System.out.println("End...");
 				
 				IOUtils.closeQuietly(in);
 			}

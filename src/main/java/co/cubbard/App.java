@@ -106,8 +106,19 @@ public class App
 			threads.add(t);
 		}
 		
+		int lineCount = 0;
 		while (!isComplete(threads)) {
-			System.out.print(".");
+			lineCount++;
+			try {
+				if ((lineCount % 32) == 0)
+					System.out.println(".");
+				else
+					System.out.print(".");
+					
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				System.out.println("Main thread of execution interupted.");
+			}
 		}
 		
 		System.out.println("");
