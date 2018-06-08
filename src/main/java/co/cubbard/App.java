@@ -92,6 +92,8 @@ public class App
 		List<Title> titles2 = getTitles(search, keyword2);
 		
 		// Testing with threads
+		System.out.println("Begin downloading videos...");
+
 		List<Thread> threads = Lists.newArrayList();
 		for (Title title : titles1) {
 			Thread t = spawnDownloadThread(title);
@@ -99,7 +101,6 @@ public class App
 			threads.add(t);
 		}
 		
-		System.out.println("Begin downloading videos...");
 		for (Title title : titles2) {
 			Thread t = spawnDownloadThread(title);
 			t.start();
