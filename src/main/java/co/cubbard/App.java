@@ -74,52 +74,21 @@ public class App
 			properties.getProperty("youtube.apiKey"),
 			properties.getProperty("youtube.url.base")
 		);
-		
-		// 1. Randomly select two keywords that will consistute the YouTube searches
-		List<String> keywords = CubbardFileHandle.getKeywords();
-		int randomInt1 = ThreadLocalRandom.current().nextInt(0, keywords.size());
-		int randomInt2 = ThreadLocalRandom.current().nextInt(0, keywords.size());
-		
-		while (randomInt1 == randomInt2) {
-			randomInt2 = ThreadLocalRandom.current().nextInt(0, keywords.size());
-		}
 
-		String keyword1 = keywords.get(randomInt1);
-		String keyword2 = keywords.get(randomInt2);
-		System.out.println(String.format("selected '%s' and '%s'", keyword1, keyword2));
-		
-		List<Title> titles1 = getTitles(search, keyword1);
-		List<Title> titles2 = getTitles(search, keyword2);
-		
 		// Testing with threads
 		System.out.println("Begin downloading videos...");
-
 		List<Thread> threads = Lists.newArrayList();
-		for (Title title : titles1) {
-			Thread t = spawnDownloadThread(title);
-			t.start();
-			threads.add(t);
-		}
-		
-		for (Title title : titles2) {
-			Thread t = spawnDownloadThread(title);
-			t.start();
-			threads.add(t);
-		}
-		
-		int lineCount = 0;
-		while (!isComplete(threads)) {
-			lineCount++;
-			try {
-				if ((lineCount % 32) == 0)
-					System.out.println(".");
-				else
-					System.out.print(".");
-					
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				System.out.println("Main thread of execution interupted.");
+		for (String phrase : CubbardFileHandle.getKeywords()) {
+			List<Title> titles = getTitles(search, phrase);
+			for (Title title : titles) {
+				Thread t = spawnDownloadThread(title);
+				t.start();
+				threads.add(t);
 			}
+		}
+		
+		while (!isComplete(threads)) {
+			
 		}
 		
 		System.out.println("");
