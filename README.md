@@ -12,7 +12,7 @@ The downloader will select two random keyphrases to use for querying YouTube's d
 The list of keywords is contained within the 'data' directory above project root.  
 
 ### What You'll Need
-1. A Google API [authorization credentials](https://developers.google.com/youtube/registering_an_application)  
+1. Google API [authorization credentials](https://developers.google.com/youtube/registering_an_application)  
 2. [JDK 9](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html)  
 
 I have provided an example application properties file in the project root directory.  
